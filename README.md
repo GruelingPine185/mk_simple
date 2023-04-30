@@ -19,9 +19,8 @@ Define your macros.
 
 
 ```makefile
-source_ext := c
-sources := $(wildcard *.$(source_ext))
-objects := $(patsubst %.$(source_ext), %.o, $(sources))
+sources := $(wildcard *.c)
+objects := $(patsubst %.c, %.o, $(sources))
 lib_name := test
 lib_ext = dylib
 lib_name_full := lib$(lib_name).$(lib_ext)
@@ -39,8 +38,7 @@ all:
 clean:
 	rm -rf *.o *.$(lib_ext)
 
-# Construts a dynamic library
-$(eval $(call mk_dynamic_objs, $(objects), $(compiler_c), $(source_ext), $(flags_c),))
+$(eval $(call mk_dynamic_objs, $(objects), $(compiler_c), %.o, %.c, $(flags_c),))
 $(eval $(call mk_dynamic_lib, $(lib_name_full), $(compiler_c), $(flags_c),, $(objects),))
 # ...
 ```
